@@ -88,7 +88,7 @@ bool findPath(){//寻找一条从入口（1，1）到出口（rows,cols）的路径
 			path->push(here);
 			here.row = r;
 			here.col = c;
-			maze[r][c] = 1; // 然后将该位置设为不可通过
+			maze[r][c] = 4; // 然后将该位置设为不可通过
 			option = 0;
 		}
 		else {// 若没有，则将上一位置弹出路径栈
@@ -119,7 +119,7 @@ void outputPath(){// 打印路径坐标
 	maze[rows][cols] = 3;
 	for (int i = 1; i <= rows; i++) {
 		for (int j = 1; j <= cols; j++) {
-			Sleep(5);
+			Sleep(1);
 			if (maze[i][j] == 1) {//当该点不通
 				setColor(1, 0);//设置颜色为蓝色
 				cout << "▇";
