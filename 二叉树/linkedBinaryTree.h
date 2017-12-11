@@ -1,7 +1,4 @@
-
-// linked binary tree using nodes of type binaryTreeNode
-// derives from the abstract class binaryTree
-
+//二叉树
 #ifndef linkedBinaryTree_
 #define linkedBinaryTree_
 
@@ -13,7 +10,6 @@ using namespace std;
 #include "arrayQueue.h"
 #include "binaryTreeNode.h"
 #include "myExceptions.h"
-#include "booster.h"
 
 
 template<class E>
@@ -25,10 +21,11 @@ public:
 	bool empty() const { return treeSize == 0; }
 	int size() const { return treeSize; }
 	E* rootElement() const;
-	void makeTree(const E& element,
-		linkedBinaryTree<E>&, linkedBinaryTree<E>&);
+	void makeTree(const E& element, linkedBinaryTree<E>&, linkedBinaryTree<E>&);
 	linkedBinaryTree<E>& removeLeftSubtree();
 	linkedBinaryTree<E>& removeRightSubtree();
+	void makeTreebyPre(E *pre, E *in, int size);
+	
 	void preOrder(void(*theVisit)(binaryTreeNode<E>*))
 	{
 		visit = theVisit; preOrder(root);
@@ -53,15 +50,16 @@ public:
 		treeSize = 0;
 	}
 	int height() const { return height(root); }
+	bool compare(linkedBinaryTree<E> &x) { return compare(root, x.root); }//比较两个二叉树
 protected:
-	binaryTreeNode<E> *root;                // pointer to root
-	int treeSize;                           // number of nodes in tree
-	static void(*visit)(binaryTreeNode<E>*);      // visit function
-	static int count;         // used to count nodes in a subtree
+	binaryTreeNode<E> *root;                // 根节点
+	int treeSize;                           // 树大小
+	static void(*visit)(binaryTreeNode<E>*);      // visit方法
+	static int count;         // 计算节点数
 	static void preOrder(binaryTreeNode<E> *t);
 	static void inOrder(binaryTreeNode<E> *t);
 	static void postOrder(binaryTreeNode<E> *t);
-	static void countNodes(binaryTreeNode<E> *t)
+	static void countNodes(binaryTreeNode<E> *t)//计算节点数
 	{
 		visit = addToCount;
 		count = 0;
@@ -72,26 +70,27 @@ protected:
 	{
 		cout << t->element << ' ';
 	}
-	static void addToCount(binaryTreeNode<E> *t)
+	static void addToCount(binaryTreeNode<E> *t)//每遍历一个节点count加一
 	{
 		count++;
 	}
 	static int height(binaryTreeNode<E> *t);
+	static bool compare(binaryTreeNode<E> *a, binaryTreeNode<E> *b);
+	E *pre, *in;
+	int orderSize;
+	binaryTreeNode<E>* makeTreebyPre(int left, int right, int pos);
 };
-// the following should work but gives an internal compiler error
-// template <class E> void (*linkedBinaryTree<E>::visit)(binaryTreeNode<E>*);
-// so the explicit declarations that follow are used for our purpose instead
 void(*linkedBinaryTree<int>::visit)(binaryTreeNode<int>*);
-void(*linkedBinaryTree<booster>::visit)(binaryTreeNode<booster>*);
+void(*linkedBinaryTree<char>::visit)(binaryTreeNode<char>*);
 void(*linkedBinaryTree<pair<int, int> >::visit)(binaryTreeNode<pair<int, int> >*);
 void(*linkedBinaryTree<pair<const int, char> >::visit)(binaryTreeNode<pair<const int, char> >*);
 void(*linkedBinaryTree<pair<const int, int> >::visit)(binaryTreeNode<pair<const int, int> >*);
 
 template<class E>
 E* linkedBinaryTree<E>::rootElement() const
-{// Return NULL if no root. Otherwise, return pointer to root element.
+{// 返回树根元素
 	if (treeSize == 0)
-		return NULL;  // no root
+		return NULL;
 	else
 		return &root->element;
 }
@@ -99,25 +98,39 @@ E* linkedBinaryTree<E>::rootElement() const
 template<class E>
 void linkedBinaryTree<E>::makeTree(const E& element,
 	linkedBinaryTree<E>& left, linkedBinaryTree<E>& right)
-{// Combine left, right, and element to make new tree.
- // left, right, and this must be different trees.
-   // create combined tree
+{//由左子树和右子树生成树
 	root = new binaryTreeNode<E>(element, left.root, right.root);
 	treeSize = left.treeSize + right.treeSize + 1;
-
-	// deny access from trees left and right
 	left.root = right.root = NULL;
 	left.treeSize = right.treeSize = 0;
 }
-
+template<class E>
+void linkedBinaryTree<E>::makeTreebyPre(E *preArray, E *inArray, int size) {
+	pre = preArray;
+	in = inArray;
+	orderSize = size;
+	root=makeTreebyPre(0, size,0);
+	treeSize = size;
+}
+template<class E>
+binaryTreeNode<E>* linkedBinaryTree<E>::makeTreebyPre(int left,int right,int pos) {
+	if (left >= right)
+		return NULL;
+	int i = left;//初始化计数变量，从left开始循环比较，直到找到根节点在中序数组的位置
+	for (i; i < right; i++) {
+		if (pre[pos]==in[i])
+			break;
+	}
+	binaryTreeNode<E> *t = new binaryTreeNode<E>(in[i]);//创建新根节点
+	t->leftChild = makeTreebyPre(left,i,pos+1);//递归生成左子树
+	t->rightChild = makeTreebyPre(i+1,right,pos+i-left+1);//递归生成右子树
+	return t;
+}
 template<class E>
 linkedBinaryTree<E>& linkedBinaryTree<E>::removeLeftSubtree()
-{// Remove and return the left subtree.
-   // check if empty
+{//移除左子树
 	if (treeSize == 0)
 		throw emptyTree();
-
-	// detach left subtree and save in leftSubtree
 	linkedBinaryTree<E> leftSubtree;
 	leftSubtree.root = root->leftChild;
 	count = 0;
@@ -130,12 +143,9 @@ linkedBinaryTree<E>& linkedBinaryTree<E>::removeLeftSubtree()
 
 template<class E>
 linkedBinaryTree<E>& linkedBinaryTree<E>::removeRightSubtree()
-{// Remove and return the right subtree.
-   // check if empty
+{//移除右子树
 	if (treeSize == 0)
 		throw emptyTree();
-
-	// detach right subtree and save in rightSubtree
 	linkedBinaryTree<E> rightSubtree;
 	rightSubtree.root = root->rightChild;
 	count = 0;
@@ -148,7 +158,7 @@ linkedBinaryTree<E>& linkedBinaryTree<E>::removeRightSubtree()
 
 template<class E>
 void linkedBinaryTree<E>::preOrder(binaryTreeNode<E> *t)
-{// Preorder traversal.
+{// 前序遍历
 	if (t != NULL)
 	{
 		linkedBinaryTree<E>::visit(t);
@@ -159,7 +169,7 @@ void linkedBinaryTree<E>::preOrder(binaryTreeNode<E> *t)
 
 template<class E>
 void linkedBinaryTree<E>::inOrder(binaryTreeNode<E> *t)
-{// Inorder traversal.
+{//中序遍历
 	if (t != NULL)
 	{
 		inOrder(t->leftChild);
@@ -170,7 +180,7 @@ void linkedBinaryTree<E>::inOrder(binaryTreeNode<E> *t)
 
 template<class E>
 void linkedBinaryTree<E>::postOrder(binaryTreeNode<E> *t)
-{// Postorder traversal.
+{// 后序遍历
 	if (t != NULL)
 	{
 		postOrder(t->leftChild);
@@ -181,19 +191,18 @@ void linkedBinaryTree<E>::postOrder(binaryTreeNode<E> *t)
 
 template <class E>
 void linkedBinaryTree<E>::levelOrder(void(*theVisit)(binaryTreeNode<E> *))
-{// Level-order traversal.
+{// 层次遍历
 	arrayQueue<binaryTreeNode<E>*> q;
 	binaryTreeNode<E> *t = root;
 	while (t != NULL)
 	{
-		theVisit(t);  // visit t
-		// put t's children on queue
+		theVisit(t);
+
 		if (t->leftChild != NULL)
 			q.push(t->leftChild);
 		if (t->rightChild != NULL)
 			q.push(t->rightChild);
 
-		// get next node to visit
 		try { t = q.front(); }
 		catch (queueEmpty) { return; }
 		q.pop();
@@ -202,15 +211,24 @@ void linkedBinaryTree<E>::levelOrder(void(*theVisit)(binaryTreeNode<E> *))
 
 template <class E>
 int linkedBinaryTree<E>::height(binaryTreeNode<E> *t)
-{// Return height of tree rooted at *t.
+{// 返回树的高度
 	if (t == NULL)
-		return 0;                    // empty tree
-	int hl = height(t->leftChild);  // height of left
-	int hr = height(t->rightChild); // height of right
+		return 0;
+	int hl = height(t->leftChild);  // 左子树高度
+	int hr = height(t->rightChild); // 右子树高度
 	if (hl > hr)
 		return ++hl;
 	else
 		return ++hr;
 }
-
+template <class E>
+bool linkedBinaryTree<E>::compare(binaryTreeNode<E> *a, binaryTreeNode<E> *b) {//重载比较方法，递归比较两个根节点
+	if (a == NULL && b == NULL)//当同时为空时，相等
+		return true;
+	if (a != NULL&&b == NULL || a == NULL&&b != NULL)//当有一个不为空时，不相等
+		return false;
+	if (a->element != b->element)
+		return false;//当节点元素不相等时，返回false
+	return compare(a->leftChild, b->leftChild) && compare(a->rightChild, b->rightChild);//返回左右子树比较的结果
+}
 #endif
