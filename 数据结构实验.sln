@@ -17,6 +17,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "迷宫", "迷宫\迷宫.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "二叉树", "二叉树\二叉树.vcxproj", "{506D3645-46B1-4411-9429-E16F77F176CB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "堆", "堆\堆.vcxproj", "{B24C4017-5FBB-42F4-8974-749E273B684A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "霍夫曼树", "霍夫曼树\霍夫曼树.vcxproj", "{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +101,26 @@ Global
 		{506D3645-46B1-4411-9429-E16F77F176CB}.Release|x64.Build.0 = Release|x64
 		{506D3645-46B1-4411-9429-E16F77F176CB}.Release|x86.ActiveCfg = Release|Win32
 		{506D3645-46B1-4411-9429-E16F77F176CB}.Release|x86.Build.0 = Release|Win32
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Debug|x64.ActiveCfg = Debug|x64
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Debug|x64.Build.0 = Debug|x64
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Debug|x86.ActiveCfg = Debug|Win32
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Debug|x86.Build.0 = Debug|Win32
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Release|Any CPU.ActiveCfg = Release|Win32
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Release|x64.ActiveCfg = Release|x64
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Release|x64.Build.0 = Release|x64
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Release|x86.ActiveCfg = Release|Win32
+		{B24C4017-5FBB-42F4-8974-749E273B684A}.Release|x86.Build.0 = Release|Win32
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Debug|x64.ActiveCfg = Debug|x64
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Debug|x64.Build.0 = Debug|x64
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Debug|x86.ActiveCfg = Debug|Win32
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Debug|x86.Build.0 = Debug|Win32
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Release|Any CPU.ActiveCfg = Release|Win32
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Release|x64.ActiveCfg = Release|x64
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Release|x64.Build.0 = Release|x64
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Release|x86.ActiveCfg = Release|Win32
+		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
