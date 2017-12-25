@@ -88,7 +88,7 @@ void linkedMaxHeap<T>::push(const T& theElement)
 		}
 		mid = (left + right) / 2;
 	}
-	if (count % 2 == 0)//此时已确定要插入节点的父节点，然后判断该节点是左孩子还是右孩子
+	if (count % 2 == 0)//此时已确定要插入节点的父节点，然后判断该节点是左孩子还是右孩子 
 		p->rightChild = t;//是右孩子
 	else
 		p->leftChild = t;//是左孩子
@@ -168,6 +168,7 @@ heapNode<T>* linkedMaxHeap<T>::getLast() {
 template<class T>
 void linkedMaxHeap<T>::initialize(T *theHeap, int theSize)
 {
+	erase();
 	for (int i = 1; i < theSize; i++)
 		push(theHeap[i]);
 }

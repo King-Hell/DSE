@@ -40,10 +40,8 @@ int main(void)
 	//cout << h << endl;
 
 	cout << endl << "test initialize" << endl;
-	int z[10];
-	for (int i = 1; i < 10; i++)
-	   z[i] = i;
-	h.initialize(z, 9);
+	int z[5] = {0,3,5,6,7};
+	h.initialize(z, 5);
 	cout << "Elements in array order are" << endl;
 	cout << h ;
 

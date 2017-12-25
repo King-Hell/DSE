@@ -106,14 +106,16 @@ void linkedBinaryTree<E>::makeTree(const E& element,
 }
 template<class E>
 void linkedBinaryTree<E>::makeTreebyPre(E *preArray, E *inArray, int size) {
-	pre = preArray;
+	//由前序和中序数组生成二叉树
+	pre = preArray;//pre与in是两个数组成员变量
 	in = inArray;
-	orderSize = size;
-	root=makeTreebyPre(0, size,0);
+	orderSize = size;//orderSize是int型成员变量，表示前序和中序数组的长度
+	root=makeTreebyPre(0, size,0);//调用同名的重载方法
 	treeSize = size;
 }
 template<class E>
 binaryTreeNode<E>* linkedBinaryTree<E>::makeTreebyPre(int left,int right,int pos) {
+	//递归生成左右子树
 	if (left >= right)
 		return NULL;
 	int i = left;//初始化计数变量，从left开始循环比较，直到找到根节点在中序数组的位置
@@ -124,7 +126,7 @@ binaryTreeNode<E>* linkedBinaryTree<E>::makeTreebyPre(int left,int right,int pos
 	binaryTreeNode<E> *t = new binaryTreeNode<E>(in[i]);//创建新根节点
 	t->leftChild = makeTreebyPre(left,i,pos+1);//递归生成左子树
 	t->rightChild = makeTreebyPre(i+1,right,pos+i-left+1);//递归生成右子树
-	return t;
+	return t;//返回根节点
 }
 template<class E>
 linkedBinaryTree<E>& linkedBinaryTree<E>::removeLeftSubtree()

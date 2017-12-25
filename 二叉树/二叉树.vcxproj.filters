@@ -30,15 +30,24 @@
     <ClInclude Include="binaryTreeNode.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="booster.h">
+    <ClInclude Include="queue.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="queue.h">
+    <ClInclude Include="binarySearchTree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="bsTree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dictionary.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="linkedBinaryTree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="binarySearchTree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
