@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "排序算法", "排序算法\排序算法.vcxproj", "{E2BA7F0C-6FE1-4BD9-928F-3F2BCBD3F0A5}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "堆", "堆\堆.vcxproj", "{B24C4017-5FBB-42F4-8974-749E273B684A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "霍夫曼树", "霍夫曼树\霍夫曼树.vcxproj", "{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "红黑树", "红黑树\红黑树.vcxproj", "{A0111894-8271-454B-AB35-BC5B0AF885A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +123,16 @@ Global
 		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Release|x64.Build.0 = Release|x64
 		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Release|x86.ActiveCfg = Release|Win32
 		{AEC5CA07-4C56-4634-B04A-A37C6EB9B5C1}.Release|x86.Build.0 = Release|Win32
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Debug|x64.ActiveCfg = Debug|x64
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Debug|x64.Build.0 = Debug|x64
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Debug|x86.ActiveCfg = Debug|Win32
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Debug|x86.Build.0 = Debug|Win32
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Release|x64.ActiveCfg = Release|x64
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Release|x64.Build.0 = Release|x64
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Release|x86.ActiveCfg = Release|Win32
+		{A0111894-8271-454B-AB35-BC5B0AF885A8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
