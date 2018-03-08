@@ -3,6 +3,7 @@
 #define redBlackTree_
 
 #include<iostream>
+#include<queue>
 #include"rbTreeNode.h"
 #include"myExceptions.h"
 using namespace std;
@@ -14,11 +15,26 @@ public:
 	pair<const K, E>* find(const K& theKey) const;//查找方法
 	void insert(const pair<const K, E>& thePair);//插入方法
 	void erase(const K& theKey);//删除方法
+
+	//redBlackTree() { root = NULL; treeSize = 0; };//构造方法
+
+	redBlackTree() {
+		//测试用初始化
+
+		root = new rbTreeNode<pair<const K, E>>(pair<const K, E>(50, 'a'), BLACK);
+		root->leftChild = new rbTreeNode<pair<const K, E>>(pair<const K, E>(10, 'b'), BLACK);
+		root->leftChild->parent = root;
+		root->rightChild = new rbTreeNode<pair<const K, E>>(pair<const K, E>(80, 'c'), BLACK);
+		root->rightChild->parent = root;
+		root->rightChild->rightChild = new rbTreeNode<pair<const K, E>>(pair<const K, E>(90, 'd'), RED);
+		root->rightChild->rightChild->parent = root->rightChild;
+	}
+
 protected:
 	rbTreeNode<pair<const K, E>> *root;//根节点指针
 	int treeSize;
-	void leftRotate(rbTreeNode<pair<const K, E>> node);//左旋方法
-	void rightRotate(rbTreeNode<pair<const K, E>> node);//右旋方法
+	void leftRotate(rbTreeNode<pair<const K, E>>* node);//左旋方法
+	void rightRotate(rbTreeNode<pair<const K, E>>* node);//右旋方法
 };
 
 template<class K, class E>
@@ -27,7 +43,7 @@ pair<const K, E>* redBlackTree<K, E>::find(const K& theKey) const {
 	//红黑树查找方法与普通二叉搜索树的查找方法相同
 	//从根开始，按照小于向左，大于向右的顺序查找，直到找到相同关键字或返回空
 
-	rbTreeNode<pair<const K, E> > *p = root;
+	rbTreeNode<pair<const K, E> >* p = root;
 
 	while (p != NULL) {
 		if (theKey < p->element.first)
@@ -55,7 +71,7 @@ void redBlackTree<K, E>::insert(const pair<const K, E>& thePair) {
 	//若当前树不为空树，则先按照一般搜索树的方法找到插入位置
 	rbTreeNode<pair<const K, E> > *u = root, *pu = NULL, *gu = NULL;
 	while (u != NULL) {
-		pu = p;
+		pu = u;
 		if (thePair.first < u->element.first)
 			u = u->leftChild;
 		else if (thePair.first > u->element.first)
@@ -67,19 +83,19 @@ void redBlackTree<K, E>::insert(const pair<const K, E>& thePair) {
 		}
 	}
 	//当找不到匹配关键字时，建立新节点，颜色为红色
-	rbTreeNode<pair<const K, E>> *newNode = new binaryTreeNode<pair<const K, E> >(thePair, RED);
+	u = new rbTreeNode<pair<const K, E> >(thePair, RED);
 	if (thePair.first < pu->element.first)
-		pu->leftChild = newNode;
+		pu->leftChild = u;
 	else
-		pu->rightChild = newNode;
-	newNode->parent = pu;
+		pu->rightChild = u;
+	u->parent = pu;
 	treeSize++;
 	while (pu->color == RED) {
 		//若该节点的父节点颜色为黑色，则插入结束
 
 		//若插入节点的父节点为红色，则先判断是否为XYr型不平衡
 		gu = pu->parent;
-		if (gu->leftChild->color == gu->rightChild->color == RED) {
+		if (gu->leftChild != NULL && gu->rightChild != NULL && gu->leftChild->color == RED && gu->rightChild->color == RED) {
 			//若为XYr型不平衡
 			//将pu和gu的右孩子由红色改为黑色
 			if (pu == gu->leftChild)
@@ -133,34 +149,51 @@ void redBlackTree<K, E>::insert(const pair<const K, E>& thePair) {
 }
 
 template<class K, class E>
-void redBlackTree<K, E>::rightRotate(rbTreeNode<pair<const K, E>> node) {
+void redBlackTree<K, E>::rightRotate(rbTreeNode<pair<const K, E>>* node) {
 	//将node节点右旋，旋转完成后作为根节点
 	if (node->parent == NULL)
 		throw illegalParameterValue("node can't be root");
-	//pnode为要旋转节点的父节点
-	rbTreeNode<T> *pnode = node->parent;
+	//pnode为要旋转节点的父节点,gnode为pnode的父节点
+	rbTreeNode<pair<const K, E>>* pnode = node->parent, *gnode = node->parent->parent;
 	pnode->leftChild = node->rightChild;
 	node->rightChild = pnode;
-	if (pnode->parent == NULL)
+	if (pnode->parent == NULL) {
 		node->parent = NULL;
-	else
-		node->parent = pnode->parent;
+		root = node;
+	}
+	else if (pnode == gnode->leftChild) {
+		node->parent = gnode;
+		gnode->leftChild = node;
+	}
+	else {
+		node->parent = gnode;
+		gnode->rightChild = node;
+	}
 	pnode->parent = node;
 }
 
 template<class K, class E>
-void redBlackTree<K, E>::leftRotate(rbTreeNode<pair<const K, E>> node) {
+void redBlackTree<K, E>::leftRotate(rbTreeNode<pair<const K, E>>* node) {
 	//将node节点左旋，旋转完成后作为根节点
 	if (node->parent == NULL)
 		throw illegalParameterValue("node can't be root");
-	//pnode为要旋转节点的父节点
-	rbTreeNode<T> *pnode = node->parent;
+	//pnode为要旋转节点的父节点,gnode为pnode的父节点
+	rbTreeNode<pair<const K, E>> *pnode = node->parent, *gnode = node->parent->parent;
 	pnode->rightChild = node->leftChild;
 	node->leftChild = pnode;
-	if (pnode->parent == NULL)
+	if (pnode->parent == NULL) {
 		node->parent = NULL;
-	else
-		node->parent = pnode->parent;
+		root = node;
+	}
+	else if (pnode == gnode->leftChild) {
+		node->parent = gnode;
+		gnode->leftChild = node;
+	}
+	else {
+		node->parent = gnode;
+		gnode->rightChild = node;
+	}
+
 	pnode->parent = node;
 }
 template<class K, class E>
@@ -169,7 +202,7 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 	// 删除关键字为theKey的节点
 
 	rbTreeNode<pair<const K, E> > *p = root, *pp = NULL;//p用于遍历树，pp为要当前遍历节点的父节点
-	while (p != NULL && p->element.first != theKey){
+	while (p != NULL && p->element.first != theKey) {
 		// 遍历树
 		pp = p;
 		if (theKey < p->element.first)
@@ -178,15 +211,15 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 			p = p->rightChild;
 	}
 	if (p == NULL)
-		return; 
+		return;
 	//无匹配关键字，返回
 
 	//找到匹配关键字，分为三种情况：1、有两个孩子2、有一个孩子3、是叶节点
 	//当前要删除节点为p
-	if (p->leftChild != NULL && p->rightChild != NULL){
+	if (p->leftChild != NULL && p->rightChild != NULL) {
 		// 有两个孩子的情况
 		rbTreeNode<pair<const K, E> > *s = p->leftChild, *ps = p;
-		while (s->rightChild != NULL){
+		while (s->rightChild != NULL) {
 			// 移动到左子树的最大节点
 			ps = s;
 			s = s->rightChild;
