@@ -115,8 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bsTree.h" />
-    <ClInclude Include="dictionary.h" />
+    <ClInclude Include="myExceptions.h" />
     <ClInclude Include="rbTreeNode.h" />
     <ClInclude Include="redBlackTree.h" />
   </ItemGroup>

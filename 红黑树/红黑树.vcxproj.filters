@@ -18,13 +18,10 @@
     <ClInclude Include="redBlackTree.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="bsTree.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="dictionary.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="rbTreeNode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="myExceptions.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
