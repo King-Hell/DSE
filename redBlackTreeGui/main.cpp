@@ -1,5 +1,6 @@
 #include "redBlackTreeGui.h"
 #include <QtWidgets/QApplication>
+#include<qlabel.h>
 
 int main(int argc, char *argv[])
 {

@@ -32,7 +32,6 @@ struct rbTreeNode{
 		color = theColor;
 		parent = NULL;
 	}
-
 };
 
 #endif

@@ -35,6 +35,7 @@ protected:
 	int treeSize;
 	void leftRotate(rbTreeNode<pair<const K, E>>* node);//左旋方法
 	void rightRotate(rbTreeNode<pair<const K, E>>* node);//右旋方法
+	bool isBlack(rbTreeNode<pair<const K, E>>* node);//判断传入参数node是否为黑色节点，黑色返回true，红色返回false
 };
 
 template<class K, class E>
@@ -197,27 +198,36 @@ void redBlackTree<K, E>::leftRotate(rbTreeNode<pair<const K, E>>* node) {
 	pnode->parent = node;
 }
 template<class K, class E>
+bool redBlackTree<K, E>::isBlack(rbTreeNode<pair<const K, E>>* node) {
+	//该方法判断node是否为黑色节点
+	if (node == NULL || node->color == BLACK)
+		return true;
+	else
+		return false;
+}
+template<class K, class E>
 void redBlackTree<K, E>::erase(const K& theKey) {
 	//红黑树删除方法：
 	// 删除关键字为theKey的节点
 
+	//先按照一般搜索树的删除方法
+	//定位到要删除的节点位置
 	rbTreeNode<pair<const K, E> > *p = root, *pp = NULL;//p用于遍历树，pp为要当前遍历节点的父节点
 	while (p != NULL && p->element.first != theKey) {
-		// 遍历树
 		pp = p;
 		if (theKey < p->element.first)
 			p = p->leftChild;
 		else
 			p = p->rightChild;
 	}
-	if (p == NULL)
+	if (p == NULL)//无匹配关键字，返回
 		return;
-	//无匹配关键字，返回
 
 	//找到匹配关键字，分为三种情况：1、有两个孩子2、有一个孩子3、是叶节点
 	//当前要删除节点为p
 	if (p->leftChild != NULL && p->rightChild != NULL) {
-		// 有两个孩子的情况
+		// 1、有两个孩子，将p的左子树的最大节点元素与其交换
+		//令p为最大节点，最大节点仅有一棵子树或无子树，按照2、3情况处理
 		rbTreeNode<pair<const K, E> > *s = p->leftChild, *ps = p;
 		while (s->rightChild != NULL) {
 			// 移动到左子树的最大节点
@@ -225,36 +235,183 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 			s = s->rightChild;
 		}
 		//s为左子树的最大节点，ps为左子树最大节点的父节点
-		//新建节点q，将q插入到删除位置
-		rbTreeNode<pair<const K, E> > *q = new rbTreeNode<pair<const K, E> >(s->element, p->leftChild, p->rightChild);
+		//新建节点y，将y插入到删除位置
+
+
+		rbTreeNode<pair<const K, E> > *q = new rbTreeNode<pair<const K, E> >(s->element, p->color);
+		q->leftChild = p->leftChild, q->rightChild = p->rightChild;
+		q->parent = p->parent;
+		q->leftChild->parent = q, q->rightChild->parent = q;
 		if (pp == NULL)
 			root = q;
 		else if (p == pp->leftChild)
 			pp->leftChild = q;
 		else
 			pp->rightChild = q;
-		if (ps == p) //若左子树最大节点的父节点为p，则令pp为q
+		if (ps == p) //若左子树最大节点的父节点为p，则令pp为y                                                                                                                                                                   
 			pp = q;
 		else
-			pp = ps;//若不是，则pp为其父节点
+			pp = ps;//若不是，则pp为其父节点 
 		delete p;//释放要删除节点
 		p = s;
+
+
 	}
-	//此时p最多有一个孩子
-	rbTreeNode<pair<const K, E> > *c;
+	//2、有一个孩子
+	rbTreeNode<pair<const K, E> > *y;
 	if (p->leftChild != NULL)
-		c = p->leftChild;
+		y = p->leftChild;
 	else
-		c = p->rightChild;
+		y = p->rightChild;
 	//c为要删除节点的左孩子或右孩子
 	if (p == root)
-		root = c;
+		root = y;
 	else {
 		if (p == pp->leftChild)
-			pp->leftChild = c;
-		else pp->rightChild = c;
+			pp->leftChild = y;
+		else pp->rightChild = y;
 	}
 	treeSize--;
+	if (y != NULL && y != root)
+		y->parent = pp;
 	delete p;//释放该节点空间
+
+	//红黑树的平衡修复：
+	//y是替代被删除节点的节点
+	//若被删除节点是黑色且y不是树根，需要进行平衡
+	while (isBlack(y) && y != root) {
+		rbTreeNode<pair<const K, E> > *py = y->parent,*v,*w,*x;
+		bool pyc = py->color;//pyc为py节点在调整前的颜色
+		if (y = py->rightChild) {
+			//y是py的右节点，则v是py的左节点
+			v = py->leftChild;
+			if (isBlack(v)) {
+				//Rb型不平衡
+			
+				if (isBlack(v->leftChild)&&isBlack(v->rightChild)) {
+					//1、Rb0不平衡
+					v->color = RED;
+					py->color = BLACK;
+					//若py是根或py之前是红色，则平衡
+					if (py == root || pyc == RED)
+						return;
+					//若py不是根且py之前是黑色，则可能需要重新调整
+					y = py;
+				}
+				else if (isBlack(v->rightChild)) {
+					//2、Rb1(i)型不平衡
+					v->leftChild->color = BLACK;
+					rightRotate(v);
+					v->color = pyc;
+					py->color = BLACK;
+					return;
+				}
+				else {
+					//3、Rb1(ii)和Rb2型不平衡
+					w = v->rightChild;
+					leftRotate(w);
+					rightRotate(w);
+					w->color = pyc;
+					py->color = BLACK;
+					return;
+				}
+			}
+			else {
+				//Rr型不平衡
+				w = v->rightChild;
+				if (isBlack(w->leftChild) && isBlack(w->rightChild)) {
+					//4、Rr0型不平衡
+					rightRotate(v);
+					v->color = BLACK;
+					w->color = RED;
+				}
+				else if (isBlack(w->rightChild)) {
+					//5、Rr1(i)型不平衡
+					w->leftChild->color = BLACK;
+					leftRotate(w);
+					rightRotate(w);
+				}
+				else {
+					//6、Rr2(ii)和Rr2型不平衡
+					x = w->rightChild;
+					leftRotate(w);
+					leftRotate(x);
+					rightRotate(x);
+					rightRotate(v);
+					x->color = BLACK;
+				}
+				return;
+			}
+		}
+		else {
+			//y是py的左节点,则v是py的右节点
+			v = py->rightChild;
+			if (isBlack(v)) {
+				//Lb型不平衡
+
+				if (isBlack(v->leftChild) && isBlack(v->rightChild)) {
+					//1、Lb0不平衡
+					v->color = RED;
+					py->color = BLACK;
+					//若py是根或py之前是红色，则平衡
+					if (py == root || pyc == RED)
+						return;
+					//若py不是根且py之前是黑色，则可能需要重新调整
+					y = py;
+				}
+				else if (isBlack(v->leftChild)) {
+					//2、Lb1(i)型不平衡
+					v->rightChild->color = BLACK;
+					leftRotate(v);
+					v->color = pyc;
+					py->color = BLACK;
+					return;
+				}
+				else {
+					//3、Lb1(ii)和Lb2型不平衡
+					w = v->leftChild;
+					rightRotate(w);
+					leftRotate(w);
+					w->color = pyc;
+					py->color = BLACK;
+					return;
+				}
+			}
+			else {
+				//Lr型不平衡
+				w = v->leftChild;
+				if (isBlack(w->leftChild) && isBlack(w->rightChild)) {
+					//4、Lr0型不平衡
+					leftRotate(v);
+					v->color = BLACK;
+					w->color = RED;
+				}
+				else if (isBlack(w->leftChild)) {
+					//5、Lr1(i)型不平衡
+					w->rightChild->color = BLACK;
+					rightRotate(w);
+					leftRotate(w);
+				}
+				else {
+					//6、Lr2(ii)和Lr2型不平衡
+					x = w->leftChild;
+					rightRotate(w);
+					rightRotate(x);
+					leftRotate(x);
+					leftRotate(v);
+					x->color = BLACK;
+				}
+				return;
+			}
+		}
+		
+		
+	}
+
+
+
+
+
+	
 }
 #endif

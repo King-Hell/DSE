@@ -16,9 +16,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -28,8 +26,6 @@ class Ui_redBlackTreeGuiClass
 {
 public:
     QWidget *centralWidget;
-    QPushButton *pushButton;
-    QTextEdit *textEdit;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -41,12 +37,6 @@ public:
         redBlackTreeGuiClass->resize(600, 400);
         centralWidget = new QWidget(redBlackTreeGuiClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(250, 140, 75, 23));
-        textEdit = new QTextEdit(centralWidget);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
-        textEdit->setGeometry(QRect(230, 220, 104, 71));
         redBlackTreeGuiClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(redBlackTreeGuiClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -67,7 +57,6 @@ public:
     void retranslateUi(QMainWindow *redBlackTreeGuiClass)
     {
         redBlackTreeGuiClass->setWindowTitle(QApplication::translate("redBlackTreeGuiClass", "redBlackTreeGui", nullptr));
-        pushButton->setText(QApplication::translate("redBlackTreeGuiClass", "PushButton", nullptr));
     } // retranslateUi
 
 };
