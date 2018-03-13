@@ -11,6 +11,11 @@ int main() {
 	t.insert(pair<int, char>(65, 'g'));
 	t.insert(pair<int, char>(62, 'h'));
 	
+
+	//²âÊÔÉ¾³ı
+	t.erase(90);
+	t.erase(80);
+	t.erase(70);
 	system("pause");
 	return 0;
 }

@@ -26,11 +26,11 @@ struct rbTreeNode{
 		parent = NULL;
 	}
 
-	rbTreeNode(const T& theElement,bool theColor) :element(theElement) {
-		//指定数据与颜色构造方法
+	rbTreeNode(const T& theElement, bool theColor, rbTreeNode<T>* theParent=NULL) :element(theElement) {
+		//指定数据、颜色与父节点构造方法
 		leftChild = rightChild = NULL;
 		color = theColor;
-		parent = NULL;
+		parent = theParent;
 	}
 };
 

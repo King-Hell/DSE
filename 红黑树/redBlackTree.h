@@ -3,7 +3,6 @@
 #define redBlackTree_
 
 #include<iostream>
-#include<queue>
 #include"rbTreeNode.h"
 #include"myExceptions.h"
 using namespace std;
@@ -19,7 +18,7 @@ public:
 	//redBlackTree() { root = NULL; treeSize = 0; };//构造方法
 
 	redBlackTree() {
-		//测试用初始化
+		//测试插入用初始化
 
 		root = new rbTreeNode<pair<const K, E>>(pair<const K, E>(50, 'a'), BLACK);
 		root->leftChild = new rbTreeNode<pair<const K, E>>(pair<const K, E>(10, 'b'), BLACK);
@@ -29,6 +28,23 @@ public:
 		root->rightChild->rightChild = new rbTreeNode<pair<const K, E>>(pair<const K, E>(90, 'd'), RED);
 		root->rightChild->rightChild->parent = root->rightChild;
 	}
+	//redBlackTree() {
+	//	//测试插入用初始化
+
+	//	root = new rbTreeNode<pair<const K, E>>(pair<const K, E>(65, 'a'), BLACK);
+	//	rbTreeNode<pair<const K, E>> *b= new rbTreeNode<pair<const K, E>>(pair<const K, E>(50, 'b'), RED,root);
+	//	rbTreeNode<pair<const K, E>> *c = new rbTreeNode<pair<const K, E>>(pair<const K, E>(90, 'c'), BLACK, root);
+	//	rbTreeNode<pair<const K, E>> *d = new rbTreeNode<pair<const K, E>>(pair<const K, E>(10, 'd'), BLACK, b);
+	//	rbTreeNode<pair<const K, E>> *e = new rbTreeNode<pair<const K, E>>(pair<const K, E>(60, 'e'), BLACK, b);
+	//	rbTreeNode<pair<const K, E>> *f = new rbTreeNode<pair<const K, E>>(pair<const K, E>(70, 'f'), BLACK, c);
+	//	rbTreeNode<pair<const K, E>> *g = new rbTreeNode<pair<const K, E>>(pair<const K, E>(62, 'g'), RED, e);
+	//	root->leftChild = b;
+	//	root->rightChild = c;
+	//	b->leftChild = d;
+	//	b->rightChild = e;
+	//	c->leftChild = f;
+	//	e->rightChild = g;
+	//}
 
 protected:
 	rbTreeNode<pair<const K, E>> *root;//根节点指针
@@ -157,6 +173,8 @@ void redBlackTree<K, E>::rightRotate(rbTreeNode<pair<const K, E>>* node) {
 	//pnode为要旋转节点的父节点,gnode为pnode的父节点
 	rbTreeNode<pair<const K, E>>* pnode = node->parent, *gnode = node->parent->parent;
 	pnode->leftChild = node->rightChild;
+	if (pnode->leftChild != NULL)
+		pnode->leftChild->parent = pnode;
 	node->rightChild = pnode;
 	if (pnode->parent == NULL) {
 		node->parent = NULL;
@@ -181,6 +199,8 @@ void redBlackTree<K, E>::leftRotate(rbTreeNode<pair<const K, E>>* node) {
 	//pnode为要旋转节点的父节点,gnode为pnode的父节点
 	rbTreeNode<pair<const K, E>> *pnode = node->parent, *gnode = node->parent->parent;
 	pnode->rightChild = node->leftChild;
+	if (pnode->rightChild != NULL)
+		pnode->rightChild->parent = pnode;
 	node->leftChild = pnode;
 	if (pnode->parent == NULL) {
 		node->parent = NULL;
@@ -280,15 +300,19 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 	//y是替代被删除节点的节点
 	//若被删除节点是黑色且y不是树根，需要进行平衡
 	while (isBlack(y) && y != root) {
-		rbTreeNode<pair<const K, E> > *py = y->parent,*v,*w,*x;
+		rbTreeNode<pair<const K, E> > *py, *v, *w, *x;
+		if (y != NULL)
+			py = y->parent;
+		else
+			py = pp;
 		bool pyc = py->color;//pyc为py节点在调整前的颜色
-		if (y = py->rightChild) {
+		if (y == py->rightChild) {
 			//y是py的右节点，则v是py的左节点
 			v = py->leftChild;
 			if (isBlack(v)) {
 				//Rb型不平衡
-			
-				if (isBlack(v->leftChild)&&isBlack(v->rightChild)) {
+
+				if (isBlack(v->leftChild) && isBlack(v->rightChild)) {
 					//1、Rb0不平衡
 					v->color = RED;
 					py->color = BLACK;
@@ -404,14 +428,14 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 				return;
 			}
 		}
-		
-		
+
+
 	}
 
 
 
 
 
-	
+
 }
 #endif
