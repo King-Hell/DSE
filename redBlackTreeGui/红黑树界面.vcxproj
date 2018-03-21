@@ -128,6 +128,10 @@
     <QtRcc Include="redBlackTreeGui.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="myExceptions.h" />
+    <ClInclude Include="nodeItem.h" />
+    <ClInclude Include="rbTreeNode.h" />
+    <ClInclude Include="redBlackTree.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
