@@ -9,6 +9,7 @@
 #include<qstring.h>
 #include<qgraphicsitem.h>
 #include"nodeItem.h"
+#include<qmessagebox.h>
 
 class redBlackTreeGui : public QMainWindow
 {
@@ -17,7 +18,6 @@ class redBlackTreeGui : public QMainWindow
 public:
 	redBlackTreeGui(QWidget *parent = Q_NULLPTR);
 	void draw();
-
 signals:
 	
 public slots :
