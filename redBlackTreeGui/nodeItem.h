@@ -20,16 +20,21 @@ public:
 		ellipse->setPen(Qt::NoPen);
 		QBrush brush;
 		if (node->color == RED)
-			brush.setColor(QColor(255, 0, 0));
+			brush.setColor(QColor("red"));
 		else
-			brush.setColor(QColor(255, 255, 255));
+			brush.setColor(QColor("black"));
 		brush.setStyle(Qt::SolidPattern);
 		ellipse->setBrush(brush);
 		scene->addItem(ellipse);
+		QGraphicsTextItem *text=new QGraphicsTextItem(QString::number(node->element.first));
+		text->setDefaultTextColor(QColor("white"));
+		text->setFont(QFont("Microsoft YaHei UI", 20));
+		text->setPos(x+2,y+2);
+		scene->addItem(text);
 	}
 
 	bool hasLeftChild() {
-		return node->leftChild == NULL;
+		return node->leftChild != NULL;
 	}
 	rbTreeNode<pair<const int, char>>* getLeftChild() {
 		if (node->leftChild == NULL)
@@ -37,7 +42,7 @@ public:
 		return node->leftChild;
 	}
 	bool hasRightChild() {
-		return node->rightChild == NULL;
+		return node->rightChild != NULL;
 	}
 	rbTreeNode<pair<const int, char>>* getRightChild() {
 		if (node->rightChild == NULL)
@@ -48,6 +53,7 @@ public:
 	int getX() { return x; }
 	int getY() { return y; }
 	int getLevel() { return level; }
+	bool getColor() { return node->color; };
 private:
 	int x;
 	int y;

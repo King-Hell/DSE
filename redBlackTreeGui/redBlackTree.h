@@ -14,6 +14,7 @@ public:
 	pair<const K, E>* find(const K& theKey) const;//查找方法
 	void insert(const pair<const K, E>& thePair);//插入方法
 	void erase(const K& theKey);//删除方法
+	void clear();//清空二叉树
 	rbTreeNode<pair<const K, E>>* getRoot() { return root; };
 
 	redBlackTree() { root = NULL; treeSize = 0; };//构造方法
@@ -404,11 +405,11 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 
 
 	}
-
-
-
-
-
-
+}
+template<class K, class E>
+void redBlackTree<K, E>::clear() {
+	while (root != NULL) {
+		erase(root->element.first);
+	}
 }
 #endif

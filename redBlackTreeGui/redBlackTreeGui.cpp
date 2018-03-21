@@ -9,7 +9,8 @@ redBlackTreeGui::redBlackTreeGui(QWidget *parent)
 	//scene.setSceneRect(-200, -200, 400, 400);
 	ui.graphicsView->setScene(&scene);
 	ui.graphicsView->setRenderHint(QPainter::Antialiasing, true);
-
+	ui.graphicsView->setRenderHint(QPainter::TextAntialiasing, true);
+	ui.graphicsView->setRenderHint(QPainter::SmoothPixmapTransform, true);
 }
 
 void redBlackTreeGui::insert() {
@@ -27,20 +28,19 @@ void redBlackTreeGui::erase() {
 
 void redBlackTreeGui::clear() {
 	scene.clear();
-	ui.lineEdit->setText("World");
+	tree.clear();
 }
 
 void redBlackTreeGui::draw() {
-	QBrush brush;
-	brush.setStyle(Qt::SolidPattern);
-	brush.setColor(QColor(255, 0, 0));
+	scene.clear();
+	QPen pen(QColor("blcak"));
+	pen.setWidth(8);
 	int height = 2 * log(tree.size() + 1);
 	QQueue<nodeItem*> queueNode;
 	nodeItem *node = new nodeItem(tree.getRoot(), 0, 0,1);
 	queueNode.push_back(node);
 	while (!queueNode.empty()) {
 		nodeItem *p = queueNode.front();
-		p->paint(&scene);
 		int x = p->getX();
 		int y = p->getY();
 		int level = p->getLevel();
@@ -48,11 +48,22 @@ void redBlackTreeGui::draw() {
 		if (p->hasLeftChild()) {
 			node = new nodeItem(p->getLeftChild(),x-space/4,y+VERTICALSPACE,level+1);
 			queueNode.push_back(node);
+			if (node->getColor() == RED)
+				pen.setColor(QColor("red"));
+			else
+				pen.setColor(QColor("black"));
+			scene.addLine(x+25,y+25, x - space / 4+25, y + VERTICALSPACE+25, pen);
 		}
 		if (p->hasRightChild()) {
 			node = new nodeItem(p->getRightChild(), x + space / 4, y + VERTICALSPACE, level + 1);
 			queueNode.push_back(node);
+			if (node->getColor() == RED)
+				pen.setColor(QColor("red"));
+			else
+				pen.setColor(QColor("black"));
+			scene.addLine(x + 25, y + 25, x + space / 4 + 25, y + VERTICALSPACE + 25, pen);
 		}
+		p->paint(&scene);
 		queueNode.pop_front();
 	}
 
