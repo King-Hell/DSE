@@ -268,12 +268,13 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 	treeSize--;
 	if (y != NULL && y != root)
 		y->parent = pp;
+	bool pcolor = p->color;
 	delete p;//释放该节点空间
 
 	//红黑树的平衡修复：
 	//y是替代被删除节点的节点
 	//若被删除节点是黑色且y不是树根，需要进行平衡
-	while (isBlack(y) && y != root) {
+	while (pcolor==BLACK && y != root) {
 		rbTreeNode<pair<const K, E> > *py, *v, *w, *x;
 		if (y != NULL)
 			py = y->parent;
@@ -295,6 +296,7 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 						return;
 					//若py不是根且py之前是黑色，则可能需要重新调整
 					y = py;
+					pcolor = py->color;
 				}
 				else if (isBlack(v->rightChild)) {
 					//2、Rb1(i)型不平衡
@@ -356,6 +358,7 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 						return;
 					//若py不是根且py之前是黑色，则可能需要重新调整
 					y = py;
+					pcolor = py->color;
 				}
 				else if (isBlack(v->leftChild)) {
 					//2、Lb1(i)型不平衡

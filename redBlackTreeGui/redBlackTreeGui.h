@@ -28,7 +28,7 @@ public slots :
 private:
 	Ui::redBlackTreeGuiClass ui;
 	QGraphicsScene scene;
-	redBlackTree<int, char> tree;
+	redBlackTree<QChar, char> tree;
 	int HORIZONSPACE=100;//水平间距
 	int VERTICALSPACE = 100;//垂直间距
 };

@@ -15,29 +15,27 @@ redBlackTreeGui::redBlackTreeGui(QWidget *parent)
 
 void redBlackTreeGui::insert() {
 	QString string = ui.lineEdit->text();
-	bool ok;
-	int num = ui.lineEdit->text().toInt(&ok);
-	if (!ok) {
-		QMessageBox msgBox(QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("非法数字，请重新输入"), QMessageBox::Critical, QMessageBox::Ok | QMessageBox::Default, 0, 0);
+	if (string.length() != 1) {
+		QMessageBox msgBox(QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("非法字符，请重新输入"), QMessageBox::Critical, QMessageBox::Ok | QMessageBox::Default, 0, 0);
 		msgBox.exec();
 		return;
 	}
-	pair<int, char> p(num, ' ');
+	QChar ch = string.at(0);
+	pair<QChar, char> p(ch, ' ');
 	tree.insert(p);
 	draw();
-
+	
 }
 
 void redBlackTreeGui::erase() {
 	QString string = ui.lineEdit->text();
-	bool ok;
-	int num = ui.lineEdit->text().toInt(&ok);
-	if (!ok) {
-		QMessageBox msgBox(QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("非法数字，请重新输入"), QMessageBox::Critical, QMessageBox::Ok | QMessageBox::Default, 0, 0);
+	if (string.length() != 1) {
+		QMessageBox msgBox(QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("非法字符，请重新输入"), QMessageBox::Critical, QMessageBox::Ok | QMessageBox::Default, 0, 0);
 		msgBox.exec();
 		return;
 	}
-	tree.erase(num);
+	QChar ch = string.at(0);
+	tree.erase(ch);
 	draw();
 }
 
@@ -47,7 +45,10 @@ void redBlackTreeGui::clear() {
 }
 
 void redBlackTreeGui::draw() {
+	ui.lineEdit->clear();
 	scene.clear();
+	if (tree.getRoot() == NULL)
+		return;
 	QPen pen(QColor("blcak"));
 	pen.setWidth(8);
 	int height = 2 * log(tree.size() + 1);

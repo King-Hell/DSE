@@ -7,7 +7,7 @@ class nodeItem {
 public:
 	nodeItem() {};
 
-	nodeItem(rbTreeNode<pair<const int, char>>* node,int x,int y,int level) {
+	nodeItem(rbTreeNode<pair<const QChar, char>>* node,int x,int y,int level) {
 		this->x = x;
 		this->y = y;
 		this->node = node;
@@ -26,17 +26,17 @@ public:
 		brush.setStyle(Qt::SolidPattern);
 		ellipse->setBrush(brush);
 		scene->addItem(ellipse);
-		QGraphicsTextItem *text=new QGraphicsTextItem(QString::number(node->element.first));
+		QGraphicsTextItem *text=new QGraphicsTextItem(node->element.first);
 		text->setDefaultTextColor(QColor("white"));
 		text->setFont(QFont("Microsoft YaHei UI", 20));
-		text->setPos(x+2,y+2);
+		text->setPos(x+12,y+2);
 		scene->addItem(text);
 	}
 
 	bool hasLeftChild() {
 		return node->leftChild != NULL;
 	}
-	rbTreeNode<pair<const int, char>>* getLeftChild() {
+	rbTreeNode<pair<const QChar, char>>* getLeftChild() {
 		if (node->leftChild == NULL)
 			return NULL;
 		return node->leftChild;
@@ -44,7 +44,7 @@ public:
 	bool hasRightChild() {
 		return node->rightChild != NULL;
 	}
-	rbTreeNode<pair<const int, char>>* getRightChild() {
+	rbTreeNode<pair<const QChar, char>>* getRightChild() {
 		if (node->rightChild == NULL)
 			return NULL;
 		return node->rightChild;
@@ -58,5 +58,5 @@ private:
 	int x;
 	int y;
 	int level;
-	rbTreeNode<pair<const int, char>>* node;
+	rbTreeNode<pair<const QChar, char>>* node;
 };
