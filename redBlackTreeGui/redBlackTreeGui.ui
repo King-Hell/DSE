@@ -31,10 +31,6 @@
   <property name="windowTitle">
    <string>红黑树图形演示</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>C:/Users/hasee/Pictures/xh.jpg</normaloff>C:/Users/hasee/Pictures/xh.jpg</iconset>
-  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
