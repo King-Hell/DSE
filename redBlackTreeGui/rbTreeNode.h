@@ -32,6 +32,20 @@ struct rbTreeNode{
 		color = theColor;
 		parent = theParent;
 	}
+
+	void setLeftChild(rbTreeNode<T>* leftChild) {
+		if (leftChild != NULL) {
+			this->leftChild = leftChild;
+			leftChild->parent = this;
+		}
+	}
+
+	void setRightChild(rbTreeNode<T>* rightChild) {
+		if (rightChild != NULL) {
+			this->rightChild = rightChild;
+			rightChild->parent = this;
+		}
+	}
 };
 
 #endif

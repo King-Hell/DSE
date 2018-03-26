@@ -53,6 +53,9 @@ public:
         redBlackTreeGuiClass->setSizePolicy(sizePolicy);
         redBlackTreeGuiClass->setMinimumSize(QSize(800, 600));
         redBlackTreeGuiClass->setBaseSize(QSize(800, 600));
+        QIcon icon;
+        icon.addFile(QStringLiteral("C:/Users/hasee/Pictures/xh.jpg"), QSize(), QIcon::Normal, QIcon::Off);
+        redBlackTreeGuiClass->setWindowIcon(icon);
         centralWidget = new QWidget(redBlackTreeGuiClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
