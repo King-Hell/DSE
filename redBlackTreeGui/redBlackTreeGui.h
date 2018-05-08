@@ -17,18 +17,19 @@ class redBlackTreeGui : public QMainWindow
 
 public:
 	redBlackTreeGui(QWidget *parent = Q_NULLPTR);
-	void draw();
+	void draw();//重绘方法，红黑树的插入删除完成后调用此方法重绘界面
 signals:
 	
 public slots :
-	void insert();
-	void erase();
-	void clear();
+	void insert();//插入按钮被点击后执行此方法，将编辑框中值对应的节点插入
+	void erase();//删除按钮被点击后执行此方法，将编辑框中值对应的节点删除
+	void clear();//清空按钮被点击后执行此方法，删除所有节点
+	void insertAll();//初始化按钮被点击后执行此方法，将编辑框中所有数据初始化成红黑树
 
 private:
-	Ui::redBlackTreeGuiClass ui;
-	QGraphicsScene scene;
-	redBlackTree<QChar, char> tree;
-	int HORIZONSPACE=100;//水平间距
-	int VERTICALSPACE = 100;//垂直间距
+	Ui::redBlackTreeGuiClass ui;//QT定义的UI类，用于描述界面中的空间
+	QGraphicsScene scene;//QT场景类，用于在窗口中定义绘图区域
+	redBlackTree<QChar, char> tree;//红黑树的内部存储形式
+	int HORIZONSPACE=100;//两圆形的水平间距
+	int VERTICALSPACE = 100;//两圆形的垂直间距
 };

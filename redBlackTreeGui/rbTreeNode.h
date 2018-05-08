@@ -10,8 +10,8 @@ using namespace std;
 template <class T>
 struct rbTreeNode{
 	T element;//数据域
-	rbTreeNode<T> *leftChild,*rightChild;  // 左右孩子
-	rbTreeNode<T> *parent;//父亲
+	rbTreeNode<T> *leftChild,*rightChild;  // 左右孩子指针
+	rbTreeNode<T> *parent;//父节点指针
 	bool color;//颜色，0为红色，1为黑色
 
 	rbTreeNode() { 

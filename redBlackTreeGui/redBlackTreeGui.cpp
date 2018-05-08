@@ -24,7 +24,6 @@ void redBlackTreeGui::insert() {
 	pair<QChar, char> p(ch, ' ');
 	tree.insert(p);
 	draw();
-	
 }
 
 void redBlackTreeGui::erase() {
@@ -40,13 +39,16 @@ void redBlackTreeGui::erase() {
 }
 
 void redBlackTreeGui::clear() {
-	scene.clear();
-	tree.clear();
+	scene.clear();//清空绘图区
+	tree.clear();//初始化红黑树
 }
 
 void redBlackTreeGui::draw() {
+	//绘图方法
+
 	ui.lineEdit->clear();
 	scene.clear();
+
 	if (tree.getRoot() == NULL)
 		return;
 	QPen pen(QColor("blcak"));
@@ -83,4 +85,22 @@ void redBlackTreeGui::draw() {
 		queueNode.pop_front();
 	}
 
+}
+
+void redBlackTreeGui::insertAll() {
+	clear();
+	QString str = ui.lineEdit2->text();
+	QStringList list = str.split(' ');
+	QChar* arr= new QChar[list.size()];
+	for (int i = 0; i < list.size(); i++) {
+		if (list[i].length() != 1) {
+			QMessageBox msgBox(QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("非法字符，请重新输入"), QMessageBox::Critical, QMessageBox::Ok | QMessageBox::Default, 0, 0);
+			msgBox.exec();
+			clear();
+			return;
+		}
+		arr[i] = list.at(i).at(0);
+	}
+	tree.initialize(arr, list.size());
+	draw();
 }

@@ -11,18 +11,16 @@ class redBlackTree {
 public:
 	bool empty() const { return treeSize == 0; }//返回是否为空树
 	int size() const { return treeSize; }//返回树的大小
-	pair<const K, E>* find(const K& theKey) const;//查找方法
-	void insert(const pair<const K, E>& thePair);//插入方法
-	void erase(const K& theKey);//删除方法
-	void clear();//清空二叉树
-	rbTreeNode<pair<const K, E>>* getRoot() { return root; };
-
+	pair<const K, E>* find(const K& theKey) const;//查找方法，由键值返回数对的指针，若无返回NULL
+	void insert(const pair<const K, E>& thePair);//插入方法，将输入数对插入
+	void erase(const K& theKey);//删除方法，将键值对应的数对删除，若无则返回
+	void clear();//清空二叉树，将所有数对删除，并将root置为NULL，treeSize置为0
+	void initialize(K arr[],int size);//初始化，由一个数组生成红黑树
+	rbTreeNode<pair<const K, E>>* getRoot() { return root; };//返回root的指针
 	redBlackTree() { root = NULL; treeSize = 0; };//构造方法
-	
-
 protected:
 	rbTreeNode<pair<const K, E>> *root;//根节点指针
-	int treeSize;
+	int treeSize;//树的节点数量
 	void leftRotate(rbTreeNode<pair<const K, E>>* node);//左旋方法
 	void rightRotate(rbTreeNode<pair<const K, E>>* node);//右旋方法
 	bool isBlack(rbTreeNode<pair<const K, E>>* node);//判断传入参数node是否为黑色节点，黑色返回true，红色返回false
@@ -191,6 +189,7 @@ void redBlackTree<K, E>::leftRotate(rbTreeNode<pair<const K, E>>* node) {
 
 	pnode->parent = node;
 }
+
 template<class K, class E>
 bool redBlackTree<K, E>::isBlack(rbTreeNode<pair<const K, E>>* node) {
 	//该方法判断node是否为黑色节点
@@ -199,6 +198,7 @@ bool redBlackTree<K, E>::isBlack(rbTreeNode<pair<const K, E>>* node) {
 	else
 		return false;
 }
+
 template<class K, class E>
 void redBlackTree<K, E>::erase(const K& theKey) {
 	//红黑树删除方法：
@@ -311,7 +311,7 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 					w = v->rightChild;
 					leftRotate(w);
 					rightRotate(w);
-					w->color = pyc;
+					w->color = pyc;    
 					py->color = BLACK;
 					return;
 				}
@@ -409,10 +409,20 @@ void redBlackTree<K, E>::erase(const K& theKey) {
 
 	}
 }
+
 template<class K, class E>
 void redBlackTree<K, E>::clear() {
 	while (root != NULL) {
 		erase(root->element.first);
 	}
+}
+
+template<class K,class E>
+void redBlackTree<K, E>::initialize(K arr[],int size) {
+	for (int i = 0; i < size; i++) {
+		pair<const K, E> p(arr[i], NULL);
+		insert(p);
+	}
+		
 }
 #endif

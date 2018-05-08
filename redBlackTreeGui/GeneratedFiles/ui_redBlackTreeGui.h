@@ -37,6 +37,8 @@ public:
     QPushButton *buttonInitialize;
     QLineEdit *lineEdit;
     QLabel *label;
+    QLineEdit *lineEdit2;
+    QPushButton *allButton;
     QGroupBox *groupBox_2;
     QGridLayout *gridLayout;
     QGraphicsView *graphicsView;
@@ -72,7 +74,7 @@ public:
         groupBox->setFont(font);
         buttonInsert = new QPushButton(groupBox);
         buttonInsert->setObjectName(QStringLiteral("buttonInsert"));
-        buttonInsert->setGeometry(QRect(160, 40, 91, 51));
+        buttonInsert->setGeometry(QRect(90, 40, 91, 51));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -80,17 +82,17 @@ public:
         buttonInsert->setSizePolicy(sizePolicy1);
         buttonDelete = new QPushButton(groupBox);
         buttonDelete->setObjectName(QStringLiteral("buttonDelete"));
-        buttonDelete->setGeometry(QRect(280, 40, 91, 51));
+        buttonDelete->setGeometry(QRect(190, 40, 91, 51));
         sizePolicy1.setHeightForWidth(buttonDelete->sizePolicy().hasHeightForWidth());
         buttonDelete->setSizePolicy(sizePolicy1);
         buttonInitialize = new QPushButton(groupBox);
         buttonInitialize->setObjectName(QStringLiteral("buttonInitialize"));
-        buttonInitialize->setGeometry(QRect(400, 40, 91, 51));
+        buttonInitialize->setGeometry(QRect(290, 40, 91, 51));
         sizePolicy1.setHeightForWidth(buttonInitialize->sizePolicy().hasHeightForWidth());
         buttonInitialize->setSizePolicy(sizePolicy1);
         lineEdit = new QLineEdit(groupBox);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(20, 40, 113, 51));
+        lineEdit->setGeometry(QRect(20, 40, 61, 51));
         label = new QLabel(groupBox);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(510, 0, 291, 20));
@@ -102,6 +104,12 @@ public:
         label->setTextFormat(Qt::AutoText);
         label->setWordWrap(false);
         label->setMargin(0);
+        lineEdit2 = new QLineEdit(groupBox);
+        lineEdit2->setObjectName(QStringLiteral("lineEdit2"));
+        lineEdit2->setGeometry(QRect(390, 40, 281, 51));
+        allButton = new QPushButton(groupBox);
+        allButton->setObjectName(QStringLiteral("allButton"));
+        allButton->setGeometry(QRect(680, 40, 101, 51));
 
         verticalLayout->addWidget(groupBox);
 
@@ -136,6 +144,7 @@ public:
         QObject::connect(buttonInitialize, SIGNAL(clicked()), redBlackTreeGuiClass, SLOT(clear()));
         QObject::connect(buttonDelete, SIGNAL(clicked()), redBlackTreeGuiClass, SLOT(erase()));
         QObject::connect(buttonInsert, SIGNAL(clicked()), redBlackTreeGuiClass, SLOT(insert()));
+        QObject::connect(allButton, SIGNAL(clicked()), redBlackTreeGuiClass, SLOT(insertAll()));
 
         QMetaObject::connectSlotsByName(redBlackTreeGuiClass);
     } // setupUi
@@ -143,14 +152,15 @@ public:
     void retranslateUi(QMainWindow *redBlackTreeGuiClass)
     {
         redBlackTreeGuiClass->setWindowTitle(QApplication::translate("redBlackTreeGuiClass", "\347\272\242\351\273\221\346\240\221\345\233\276\345\275\242\346\274\224\347\244\272", nullptr));
-        groupBox->setTitle(QApplication::translate("redBlackTreeGuiClass", "\350\256\276\347\275\256", nullptr));
+        groupBox->setTitle(QApplication::translate("redBlackTreeGuiClass", "\345\205\203\347\264\240", nullptr));
         buttonInsert->setText(QApplication::translate("redBlackTreeGuiClass", "\346\217\222\345\205\245", nullptr));
         buttonDelete->setText(QApplication::translate("redBlackTreeGuiClass", "\345\210\240\351\231\244", nullptr));
-        buttonInitialize->setText(QApplication::translate("redBlackTreeGuiClass", "\345\210\235\345\247\213\345\214\226", nullptr));
+        buttonInitialize->setText(QApplication::translate("redBlackTreeGuiClass", "\346\270\205\347\251\272", nullptr));
         lineEdit->setInputMask(QString());
         lineEdit->setText(QString());
         lineEdit->setPlaceholderText(QString());
         label->setText(QApplication::translate("redBlackTreeGuiClass", "Copyright \302\251 2018 LiTong. All Rights Reserved.", nullptr));
+        allButton->setText(QApplication::translate("redBlackTreeGuiClass", "\345\210\235\345\247\213\345\214\226", nullptr));
         groupBox_2->setTitle(QApplication::translate("redBlackTreeGuiClass", "\347\273\230\345\233\276", nullptr));
     } // retranslateUi
 

@@ -8,55 +8,64 @@ public:
 	nodeItem() {};
 
 	nodeItem(rbTreeNode<pair<const QChar, char>>* node,int x,int y,int level) {
+		//传入参数：节点，横坐标，纵坐标，层次
 		this->x = x;
 		this->y = y;
 		this->node = node;
 		this->level = level;
 	}
-	~nodeItem() {};
 
-	void paint(QGraphicsScene *scene) {
-		QGraphicsEllipseItem *ellipse=new QGraphicsEllipseItem(x, y, 50, 50);
+	void paint(QGraphicsScene *scene) //绘制nodeItem方法
+	{
+		QGraphicsEllipseItem *ellipse=new QGraphicsEllipseItem(x, y, 50, 50);//横坐标x，纵坐标y，大小50*50
 		ellipse->setPen(Qt::NoPen);
-		QBrush brush;
+		QBrush brush;//设定画刷颜色、风格
 		if (node->color == RED)
 			brush.setColor(QColor("red"));
 		else
 			brush.setColor(QColor("black"));
 		brush.setStyle(Qt::SolidPattern);
 		ellipse->setBrush(brush);
-		scene->addItem(ellipse);
+		scene->addItem(ellipse);//绘制图像
+
 		QGraphicsTextItem *text=new QGraphicsTextItem(node->element.first);
 		text->setDefaultTextColor(QColor("white"));
 		text->setFont(QFont("Microsoft YaHei UI", 20));
 		text->setPos(x+12,y+2);
-		scene->addItem(text);
+		scene->addItem(text);//绘制文字
 	}
 
-	bool hasLeftChild() {
+	
+	bool hasLeftChild()//返回是否有左孩子
+	{
 		return node->leftChild != NULL;
 	}
-	rbTreeNode<pair<const QChar, char>>* getLeftChild() {
+	rbTreeNode<pair<const QChar, char>>* getLeftChild() //返回左孩子指针
+	{
 		if (node->leftChild == NULL)
 			return NULL;
 		return node->leftChild;
 	}
-	bool hasRightChild() {
+	bool hasRightChild() //返回是否有右孩子
+	{
+		
 		return node->rightChild != NULL;
 	}
-	rbTreeNode<pair<const QChar, char>>* getRightChild() {
+	rbTreeNode<pair<const QChar, char>>* getRightChild() //返回右孩子指针
+	{
+		
 		if (node->rightChild == NULL)
 			return NULL;
 		return node->rightChild;
 	}
 
-	int getX() { return x; }
-	int getY() { return y; }
-	int getLevel() { return level; }
-	bool getColor() { return node->color; };
+	int getX() { return x; }//返回横坐标
+	int getY() { return y; }//返回纵坐标
+	int getLevel() { return level; }//返回层次
+	bool getColor() { return node->color; };//返回颜色
 private:
-	int x;
-	int y;
-	int level;
-	rbTreeNode<pair<const QChar, char>>* node;
+	int x;//绘图区横坐标
+	int y;//绘图区纵坐标
+	int level;//该节点的层次
+	rbTreeNode<pair<const QChar, char>>* node;//该节点内部数据指针
 };
