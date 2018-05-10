@@ -3,11 +3,12 @@
 #include"qpen.h"
 #define RED 0
 #define BLACK 1
+template<class K,class E>
 class nodeItem {
 public:
 	nodeItem() {};
 
-	nodeItem(rbTreeNode<pair<const QChar, char>>* node,int x,int y,int level) {
+	nodeItem(rbTreeNode<pair<const K, E>>* node,int x,int y,int level) {
 		//传入参数：节点，横坐标，纵坐标，层次
 		this->x = x;
 		this->y = y;
@@ -40,7 +41,7 @@ public:
 	{
 		return node->leftChild != NULL;
 	}
-	rbTreeNode<pair<const QChar, char>>* getLeftChild() //返回左孩子指针
+	rbTreeNode<pair<const K, E>>* getLeftChild() //返回左孩子指针
 	{
 		if (node->leftChild == NULL)
 			return NULL;
@@ -51,7 +52,7 @@ public:
 		
 		return node->rightChild != NULL;
 	}
-	rbTreeNode<pair<const QChar, char>>* getRightChild() //返回右孩子指针
+	rbTreeNode<pair<const K, E>>* getRightChild() //返回右孩子指针
 	{
 		
 		if (node->rightChild == NULL)
@@ -67,5 +68,5 @@ private:
 	int x;//绘图区横坐标
 	int y;//绘图区纵坐标
 	int level;//该节点的层次
-	rbTreeNode<pair<const QChar, char>>* node;//该节点内部数据指针
+	rbTreeNode<pair<const K, E>>* node;//该节点内部数据指针
 };

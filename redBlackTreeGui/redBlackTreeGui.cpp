@@ -2,6 +2,7 @@
 #include<math.h>
 #include<qqueue.h>
 
+
 redBlackTreeGui::redBlackTreeGui(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -21,7 +22,7 @@ void redBlackTreeGui::insert() {
 		return;
 	}
 	QChar ch = string.at(0);
-	pair<QChar, char> p(ch, ' ');
+	pair<K, E> p(ch, ' ');
 	tree.insert(p);
 	draw();
 }
@@ -54,17 +55,17 @@ void redBlackTreeGui::draw() {
 	QPen pen(QColor("blcak"));
 	pen.setWidth(8);
 	int height = 2 * log(tree.size() + 1);
-	QQueue<nodeItem*> queueNode;
-	nodeItem *node = new nodeItem(tree.getRoot(), 0, 0, 1);
+	QQueue<nodeItem<K,E>*> queueNode;
+	nodeItem<K,E> *node = new nodeItem<K,E>(tree.getRoot(), 0, 0, 1);
 	queueNode.push_back(node);
 	while (!queueNode.empty()) {
-		nodeItem *p = queueNode.front();
+		nodeItem<K,E> *p = queueNode.front();
 		int x = p->getX();
 		int y = p->getY();
 		int level = p->getLevel();
 		int space = HORIZONSPACE * pow(2, height - level);
 		if (p->hasLeftChild()) {
-			node = new nodeItem(p->getLeftChild(), x - space / 4, y + VERTICALSPACE, level + 1);
+			node = new nodeItem<K,E>(p->getLeftChild(), x - space / 4, y + VERTICALSPACE, level + 1);
 			queueNode.push_back(node);
 			if (node->getColor() == RED)
 				pen.setColor(QColor("red"));
@@ -73,7 +74,7 @@ void redBlackTreeGui::draw() {
 			scene.addLine(x + 25, y + 25, x - space / 4 + 25, y + VERTICALSPACE + 25, pen);
 		}
 		if (p->hasRightChild()) {
-			node = new nodeItem(p->getRightChild(), x + space / 4, y + VERTICALSPACE, level + 1);
+			node = new nodeItem<K,E>(p->getRightChild(), x + space / 4, y + VERTICALSPACE, level + 1);
 			queueNode.push_back(node);
 			if (node->getColor() == RED)
 				pen.setColor(QColor("red"));
@@ -91,7 +92,7 @@ void redBlackTreeGui::insertAll() {
 	clear();
 	QString str = ui.lineEdit2->text();
 	QStringList list = str.split(' ');
-	QChar* arr= new QChar[list.size()];
+	K* arr= new K[list.size()];
 	for (int i = 0; i < list.size(); i++) {
 		if (list[i].length() != 1) {
 			QMessageBox msgBox(QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("非法字符，请重新输入"), QMessageBox::Critical, QMessageBox::Ok | QMessageBox::Default, 0, 0);

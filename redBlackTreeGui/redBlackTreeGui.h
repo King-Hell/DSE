@@ -11,6 +11,9 @@
 #include"nodeItem.h"
 #include<qmessagebox.h>
 
+#define K QChar //当需要修改存储类型时仅需更改这两处即可
+#define E char
+
 class redBlackTreeGui : public QMainWindow
 {
 	Q_OBJECT
@@ -29,7 +32,7 @@ public slots :
 private:
 	Ui::redBlackTreeGuiClass ui;//QT定义的UI类，用于描述界面中的空间
 	QGraphicsScene scene;//QT场景类，用于在窗口中定义绘图区域
-	redBlackTree<QChar, char> tree;//红黑树的内部存储形式
+	redBlackTree<K, E> tree;//红黑树的内部存储形式
 	int HORIZONSPACE=100;//两圆形的水平间距
 	int VERTICALSPACE = 100;//两圆形的垂直间距
 };
